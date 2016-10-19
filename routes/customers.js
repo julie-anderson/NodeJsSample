@@ -1,21 +1,43 @@
 /**
  * Created by bdalgaard on 10/19/2016.
  */
+var util = require('util');
 
-var mongo = require('mongodb');
-
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var Db = require('mongodb').Db,
+    Server = require('mongodb').Server,
+    ObjectID = require('mongodb').ObjectID;
 
 var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('customers', server);
+db = new Db('test', server);
 
-
-exports.findAll = function(req, res) {
-    res.send([{name:'customer1'}, {name:'customer2'}, {name:'customer3'}]);
-};
+db.open(function(err, db) {
+    if(!err) {
+        console.log("Connected to 'test' database");
+        db.collection('customers', {strict:true}, function(err, collection) {
+            if (err) {
+                console.log("The 'customers' collection doesn't exist.");
+            }
+        });
+    }
+});
 
 exports.findById = function(req, res) {
-    res.send({id:req.params.id, name: "The Name", description: "description"});
+    var id = req.params.id;
+    console.log('Retrieving customer: ' + id);
+    db.collection('customers', function(err, collection) {
+        collection.findOne({'_id': new ObjectID(id)}, function(err, item) {
+            res.send(item);
+        });
+    });
 };
+
+exports.findAll = function(req, res) {
+    console.log('Retrieving all customers');
+    db.collection('customers', function(err, collection) {
+        collection.find().toArray(function(err, items) {
+            res.send(items);
+        });
+    });
+};
+
+
