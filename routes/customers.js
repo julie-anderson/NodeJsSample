@@ -1,8 +1,6 @@
 /**
  * Created by bdalgaard on 10/19/2016.
  */
-var util = require('util');
-
 var Db = require('mongodb').Db,
     Server = require('mongodb').Server,
     ObjectID = require('mongodb').ObjectID;
@@ -24,12 +22,15 @@ db.open(function(err, db) {
 exports.findById = function(req, res) {
     var id = req.params.id;
     console.log('Retrieving customer: ' + id);
+
     db.collection('customers', function(err, collection) {
         collection.findOne({'_id': new ObjectID(id)}, function(err, item) {
             res.send(item);
         });
     });
 };
+
+
 
 exports.findAll = function(req, res) {
     console.log('Retrieving all customers');
