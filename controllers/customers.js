@@ -1,6 +1,8 @@
 /**
  * Created by bdalgaard on 10/19/2016.
  */
+
+
 var Db = require('mongodb').Db,
     Server = require('mongodb').Server,
     ObjectID = require('mongodb').ObjectID;
