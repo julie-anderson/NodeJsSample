@@ -7,6 +7,6 @@ block content
       .row.list-group
         each Customer in customers
           .col-xs-12.list-group-item
-              Customer.FirstName
-              Customer.LastName
-              Customer.Phone
+            p.firstname= Customer.FirstName
+            p.lastname= Customer.LastName
+            p.phone= Customer.Phone
