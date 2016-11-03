@@ -1,17 +1,40 @@
 /**
  * Created by bdalgaard on 11/2/2016.
  */
+var request = require('request');
 
 var renderHomepage = function(req, res, responseBody){
     res.render('index', {
         title: 'Customers',
-        customers: [{"FirstName" : "John", "LastName" : "Doe", "Phone" : "312-123-4567" }, { "FirstName" : "Bart", "LastName" : "Simpson", "Phone" : "708-234-5678"}]
+        customers: responseBody
     });
 };
 
 /* GET 'home' page */
 module.exports.customerList = function(req, res){
-    var data = [{"FirstName" : "John", "LastName" : "Doe", "Phone" : "312-123-4567" }, { "FirstName" : "Bart", "LastName" : "Simpson", "Phone" : "708-234-5678"}];
-    console.log(data)
-    renderHomepage(req, res, data);
+    //Call API
+    var options = {
+        url: 'http://localhost:3000/customers',
+        method: 'GET',
+        json: {}
+    }
+
+    request(options, function(err, response, body){
+        if (err){
+            console.log(err);
+            res.render('error', {
+                message: 'Error',
+                error: err
+            });
+        } else if (response.statusCode === 200){
+            renderHomepage(req, res, body);
+        } else {
+            console.log(response.statusCode);
+        }
+    });
+
+
+
+
+
 };
