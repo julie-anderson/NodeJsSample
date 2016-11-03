@@ -14,7 +14,7 @@ var renderHomepage = function(req, res, responseBody){
 module.exports.customerList = function(req, res){
     //Call API
     var options = {
-        url: 'http://localhost:3000/customers',
+        url: 'http://localhost:3000/api/customers',
         method: 'GET',
         json: {}
     }
