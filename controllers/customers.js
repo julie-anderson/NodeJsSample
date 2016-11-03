@@ -40,6 +40,19 @@ exports.findAll = function(req, res) {
     });
 };
 
+exports.add = function(req, res) {
+    console.log('Adding customer');
+    res.status(200);
+    res.send({'message': 'item added'});
+};
+
+exports.update = function(req, res) {
+    var id = req.params.id
+    console.log('Updating customer with id ' + id);
+    res.status(200);
+    res.send({'message': 'item updated id ' + req.params.id});
+};
+
 exports.deleteById = function(req, res) {
     var id = req.params.id
     console.log('Deleting customer with id ' + id);
