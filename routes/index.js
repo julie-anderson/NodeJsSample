@@ -9,5 +9,6 @@ var ctrlIndex = require('../controllers/index');
 router.get('/', ctrlIndex.customerList);
 router.get('/api/customers', ctrlCustomers.findAll);
 router.get('/api/customers/:id', ctrlCustomers.findById);
+router.delete('/api/customers/:id', ctrlCustomers.deleteById);
 
 module.exports = router;

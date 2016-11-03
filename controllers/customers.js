@@ -1,8 +1,6 @@
 /**
  * Created by bdalgaard on 10/19/2016.
  */
-
-
 var Db = require('mongodb').Db,
     Server = require('mongodb').Server,
     ObjectID = require('mongodb').ObjectID;
@@ -32,13 +30,30 @@ exports.findById = function(req, res) {
     });
 };
 
-
-
 exports.findAll = function(req, res) {
     console.log('Retrieving all customers');
     db.collection('customers', function(err, collection) {
         collection.find().toArray(function(err, items) {
+            res.status(200);
             res.send(items);
+        });
+    });
+};
+
+exports.deleteById = function(req, res) {
+    var id = req.params.id
+    console.log('Deleting customer with id ' + id);
+
+    db.collection('customers', function(err, collection) {
+        console.log('deleting');
+        collection.remove({'_id': new ObjectID(id)}, function(err, results) {
+            if (err){
+                console.log("failed");
+                throw err;
+            }
+            console.log('deleted');
+            res.status(200);
+            res.send({'message': 'item deleted id ' + req.params.id});
         });
     });
 };
